@@ -1,13 +1,20 @@
-using System.Collections.Generic;
-using System.Linq;
-using BddRestSharpApiTest.Context;
-using BddRestSharpApiTest.Extensions;
-using BddRestSharpApiTest.Models;
-using FluentAssertions;
-using TechTalk.SpecFlow;
-
 namespace BddRestSharpApiTest.StepDefinitions
 {
+    #region Usings
+
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using FluentAssertions;
+
+    using TechTalk.SpecFlow;
+
+    using Context;
+    using Extensions;
+    using Models;
+
+    #endregion
+
     [Binding]
     public class GetAllEmployeesStepDefinitions
     {
@@ -21,8 +28,11 @@ namespace BddRestSharpApiTest.StepDefinitions
         [Then(@"returned data should be non empty list of employees")]
         public void ThenReturnedDataShouldBeNonEmptyListOfEmployees()
         {
-            var response = apiContext.Response.TryGetObjectOfType<ApiResponse<List<Employee>>>();
-            (response.Data is List<Employee> && response.Data.Any()).Should().BeTrue();
+            var responseData = apiContext.Response.TryGetObjectOfType<ApiResponse<List<Employee>>>().Data;
+
+            responseData.Should().NotBeNull();
+            responseData.Should().BeOfType(typeof(List<Employee>));
+            responseData.Any().Should().BeTrue();
         }
     }
 }

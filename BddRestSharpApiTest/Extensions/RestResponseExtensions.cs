@@ -1,12 +1,18 @@
-using System;
-using Newtonsoft.Json;
-using RestSharp;
-
 namespace BddRestSharpApiTest.Extensions
 {
-    public static class IRestResponseExtensions
+    #region Usings
+
+    using System;
+
+    using Newtonsoft.Json;
+
+    using RestSharp;
+
+    #endregion
+
+    public static class RestResponseExtensions
     {
-        public static T TryGetObjectOfType<T>(this IRestResponse response)
+        public static T? TryGetObjectOfType<T>(this IRestResponse response)
         {
             try
             {

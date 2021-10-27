@@ -1,19 +1,24 @@
-using BddRestSharpApiTest.Context;
-using BddRestSharpApiTest.Extensions;
-using BddRestSharpApiTest.Models;
-using FluentAssertions;
-using TechTalk.SpecFlow;
-
-
 namespace BddRestSharpApiTest.StepDefinitions
 {
+    #region Usings
+
+    using FluentAssertions;
+
+    using TechTalk.SpecFlow;
+
+    using Context;
+    using Extensions;
+    using Models;
+
+    #endregion
+
     [Binding]
     public class GetSingleEmployeeStepDefinitions
     {
         private ApiContext apiContext;
 
         private Employee responseData;
-        
+
         public GetSingleEmployeeStepDefinitions(ApiContext apiContext)
         {
             this.apiContext = apiContext;
@@ -60,6 +65,17 @@ namespace BddRestSharpApiTest.StepDefinitions
         public void ThenReturnedEmployeeNameShouldBe(string expectedName)
         {
             GetResponseData.Name.Should().Be(expectedName);
+        }
+
+        [Then(@"GET response data should not be empty")]
+        public void ThenGetResponseDataShouldNotBeEmpty()
+        {
+            GetResponseData.Should().NotBeNull();
+            GetResponseData.Age.Should().NotBe(default(int));
+            GetResponseData.Id.Should().NotBe(default(int));
+            GetResponseData.Salary.Should().NotBe(default(int));
+            GetResponseData.Name.Should().NotBeNull();
+            GetResponseData.ProfileImage.Should().NotBeNull();
         }
     }
 }

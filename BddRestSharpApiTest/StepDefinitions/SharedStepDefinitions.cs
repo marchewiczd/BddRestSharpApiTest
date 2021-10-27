@@ -1,26 +1,33 @@
-using System;
-using System.Net;
-using BddRestSharpApiTest.Context;
-using BddRestSharpApiTest.Extensions;
-using BddRestSharpApiTest.Models;
-using FluentAssertions;
-using RestSharp;
-using TechTalk.SpecFlow;
-
 namespace BddRestSharpApiTest.StepDefinitions
 {
+    #region Usings
+
+    using System.Net;
+
+    using FluentAssertions;
+
+    using RestSharp;
+
+    using TechTalk.SpecFlow;
+
+    using Context;
+    using Extensions;
+    using Models;
+
+    #endregion
+
     [Binding]
     public class SharedStepDefinitions
     {
         private ApiContext apiContext;
 
-        private EmployeeCreate responseData;
-        
+        private EmployeeCreate? responseData;
+
         public SharedStepDefinitions(ApiContext apiContext)
         {
             this.apiContext = apiContext;
         }
-        
+
         private EmployeeCreate GetResponseData
         {
             get
@@ -33,20 +40,20 @@ namespace BddRestSharpApiTest.StepDefinitions
                 return responseData;
             }
         }
-        
+
         [Given(@"I create request to ""(.*)"" endpoint")]
         public void GivenICreateRequestToEndpoint(string endpointUrl)
         {
             apiContext.Request = new RestRequest(endpointUrl);
         }
-        
+
         [When(@"I execute ""(.*)"" request")]
         public void WhenIExecuteRequest(Method requestType)
         {
             apiContext.Request.Method = requestType;
             apiContext.Response = apiContext.Client.Execute(apiContext.Request);
         }
-        
+
         [Then(@"returned status code should be ""(.*)""")]
         public void ThenReturnedStatusCodeShouldBe(HttpStatusCode statusCode)
         {
